@@ -1,7 +1,7 @@
-const express = require("express");
-const {loadEnvFile} = require("node:process");
+import express from "express";
+import {loadEnvFile} from "node:process";
 loadEnvFile(".env");
-const pool = require("../db/config");
+import pool from "../db/config";
 const authorsRouter = express.Router();
 
 // GET : Obtiene los autores

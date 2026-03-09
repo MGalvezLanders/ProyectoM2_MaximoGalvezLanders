@@ -1,7 +1,7 @@
-const { loadEnvFile } = require('node:process');
-const express = require('express');
-const authorsRouter = require('./routes/authors_routes');
-const postsRouter = require('./routes/posts_routes');
+import { loadEnvFile } from 'node:process';
+import express from 'express';
+import authorsRouter from '../src/routes/authors-routes';
+
 
 loadEnvFile('.env');
 const app = express();
