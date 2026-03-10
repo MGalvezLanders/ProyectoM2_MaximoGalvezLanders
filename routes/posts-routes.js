@@ -1,86 +1,143 @@
 import express from 'express';
-const postsRouter = express.Router();
+import pool from '../db/config.js';
 
+const postsRouter = express.Router();
+const isValidId = (id) => Number.isInteger(Number(id)) && Number(id) > 0;
 
 // GET /api/posts - Obtener todos los posts
-postsRouter.get('/', (req, res) => {
-  const { published } = req.query;
-  
-  if (published !== undefined) {
-    const isPublished = published === 'true';
-    const filtered = posts.filter(p => p.published === isPublished);
-    return res.json(filtered);
-  }
-  
-  res.json(posts);
+postsRouter.get('/', async (req, res, next) => {
+    const { published } = req.query;
+
+    try {
+        let result;
+        if (published !== undefined) {
+            const isPublished = published === 'true';
+            result = await pool.query('SELECT * FROM posts WHERE published = $1 ORDER BY created_at DESC', [isPublished]);
+        }else {
+            result = await pool.query('SELECT * FROM posts ORDER BY created_at DESC');
+        }
+        res.json(result.rows);
+    } catch (error) {
+        next(error);
+    }
+});
+
+
+// GET /api/posts/author/:authorId - Obtener posts por autor
+postsRouter.get('/author/:authorId', async (req, res, next) => {
+    if (!isValidId(req.params.authorId)) {
+        return res.status(400).json({ error: "ID inválido" });
+    }
+
+    try {
+        const result = await pool.query(
+            'SELECT * FROM posts WHERE author_id = $1 ORDER BY created_at DESC',
+            [req.params.authorId]
+        );
+
+        res.json(result.rows);
+    } catch (error) {
+        next(error);
+    }
 });
 
 // GET /api/posts/:id - Obtener un post por ID
-postsRouter.get('/:id', (req, res) => {
-  const post = posts.find(p => p.id === parseInt(req.params.id));
-  
-  if (!post) {
-    return res.status(404).json({ error: 'Post no encontrado' });
-  }
-  
-  res.json(post);
+postsRouter.get('/:id', async (req, res, next) => {
+    if (!isValidId(req.params.id)) {
+        return res.status(400).json({ error: "ID inválido" });
+    }
+
+    try {
+        const result = await pool.query('SELECT * FROM posts WHERE id = $1', [req.params.id]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Post no encontrado' });
+        }
+
+        res.json(result.rows[0]);
+    } catch (error) {
+        next(error);
+    }
+
 });
 
-// GET /api/posts/author/:authorId - Obtener posts por autor
-postsRouter.get('/author/:authorId', (req, res) => {
-  const authorPosts = posts.filter(p => p.author_id === parseInt(req.params.authorId));
-  res.json(authorPosts);
-});
 
 // POST /api/posts - Crear un nuevo post
-postsRouter.post('/', (req, res) => {
-  const { title, content, author_id, published } = req.body;
-  
-  if (!title || !content || !author_id) {
-    return res.status(400).json({ 
-      error: 'Título, contenido y author_id son requeridos' 
-    });
-  }
-  
-  const newPost = {
-    id: posts.length + 1,
-    title,
-    content,
-    author_id: parseInt(author_id),
-    published: published || false
-  };
-  
-  posts.push(newPost);
-  res.status(201).json(newPost);
+postsRouter.post('/', async (req, res, next) => {
+    const { title, content, author_id, published } = req.body;
+
+    if (!title || !content || !author_id) {
+        return res.status(400).json({
+            error: 'Título, contenido y author_id son requeridos'
+        });
+    }
+
+    if (!isValidId(author_id)) {
+        return res.status(400).json({ error: "author_id es inválido" });
+    }
+
+    try {
+        const result = await pool.query(
+            'INSERT INTO posts (title, content, author_id, published) VALUES ($1, $2, $3, $4) RETURNING *',
+            [title, content, author_id, published ?? false]
+        );
+
+        res.status(201).json(result.rows[0]);
+    } catch (error) {
+        next(error);
+    }
 });
 
 // PUT /api/posts/:id - Actualizar un post
-postsRouter.put('/:id', (req, res) => {
-  const post = posts.find(p => p.id === parseInt(req.params.id));
-  
-  if (!post) {
-    return res.status(404).json({ error: 'Post no encontrado' });
-  }
-  
-  const { title, content, published } = req.body;
-  
-  if (title) post.title = title;
-  if (content) post.content = content;
-  if (published !== undefined) post.published = published;
-  
-  res.json(post);
+postsRouter.put('/:id', async (req, res, next) => {
+    if (!isValidId(req.params.id)) {
+        return res.status(400).json({ error: "ID inválido" });
+    }
+
+    const { title, content, published } = req.body;
+
+    try {
+        const result = await pool.query(
+            `UPDATE posts
+                SET title = COALESCE($1, title),
+                    content = COALESCE($2, content),
+                    published = COALESCE($3, published)
+                WHERE id = $4
+                RETURNING *`,
+            [title, content, published ?? null, req.params.id]
+        );
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "Post no encontrado" });
+        }
+        res.json(result.rows[0]);
+    } catch (error) {
+        next(error);
+    }
+
+
 });
 
 // DELETE /api/posts/:id - Eliminar un post
-postsRouter.delete('/:id', (req, res) => {
-  const index = posts.findIndex(p => p.id === parseInt(req.params.id));
-  
-  if (index === -1) {
-    return res.status(404).json({ error: 'Post no encontrado' });
-  }
-  
-  posts.splice(index, 1);
-  res.json({ message: 'Post eliminado exitosamente' });
+postsRouter.delete('/:id', async (req, res, next) => {
+    if (!isValidId(req.params.id)) {
+        return res.status(400).json({ error: "ID inválido" });
+    }
+
+    try {
+        const result = await pool.query(
+            'DELETE FROM posts WHERE id = $1',
+            [req.params.id]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: "Post no encontrado" });
+        }
+
+        res.json({ message: "Post eliminado correctamente" });
+    } catch (error) {
+        next(error);
+    }
+
 });
 
 export default postsRouter
