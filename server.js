@@ -10,7 +10,7 @@ app.use(express.json());
 
 // Rutas
 app.use('/api/authors', authorsRouter);
-
+// app.use('/api/posts', authorsRouter);
 
 
 // Manejo de rutas no encontradas
