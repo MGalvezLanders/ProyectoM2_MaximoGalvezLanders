@@ -1,6 +1,6 @@
 import { loadEnvFile } from 'node:process';
 import express from 'express';
-import authorsRouter from './src/routes/authors-routes';
+import authorsRouter from './routes/authors-routes.js';
 
 
 loadEnvFile('.env');
@@ -10,7 +10,7 @@ app.use(express.json());
 
 // Rutas
 app.use('/api/authors', authorsRouter);
-app.use('/api/posts', postsRouter);
+
 
 
 // Manejo de rutas no encontradas
