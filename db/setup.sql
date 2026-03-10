@@ -1,4 +1,4 @@
-
+-- Tabla authors
 CREATE TABLE authors (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE authors (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Tabla de posts
+-- Tabla posts
 CREATE TABLE posts (
   id SERIAL PRIMARY KEY,
   title VARCHAR(200) NOT NULL,
