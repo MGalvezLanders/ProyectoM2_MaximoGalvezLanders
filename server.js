@@ -6,6 +6,7 @@ import authorsRouter from './routes/authors-routes.js';
 import postsRouter from './routes/posts-routes.js';
 import { errorHandler } from "./middleware/errorHandler.js";
 
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
