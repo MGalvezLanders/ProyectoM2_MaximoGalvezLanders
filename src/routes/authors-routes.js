@@ -1,7 +1,7 @@
 import express from "express";
 import {loadEnvFile} from "node:process";
 loadEnvFile(".env");
-import pool from "../db/config";
+import pool from "../db/config.js";
 const authorsRouter = express.Router();
 
 // GET : Obtiene los autores

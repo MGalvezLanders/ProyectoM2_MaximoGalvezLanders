@@ -1,6 +1,6 @@
 import { loadEnvFile } from 'node:process';
 import express from 'express';
-import authorsRouter from '../src/routes/authors-routes';
+import authorsRouter from './src/routes/authors-routes';
 
 
 loadEnvFile('.env');
