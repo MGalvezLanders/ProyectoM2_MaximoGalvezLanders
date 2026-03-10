@@ -2,39 +2,47 @@ import express from "express";
 import pool from "../db/config.js";
 const authorsRouter = express.Router();
 
-// GET : Obtiene los autores
+const isValidId = (id) => Number.isInteger(Number(id)) && Number(id) > 0;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-authorsRouter.get('/', async (req, res) => {
+// GET : Obtiene los autores
+authorsRouter.get('/', async (req, res, next) => {
     try {
         const result = await pool.query("SELECT * FROM authors ORDER BY name");
         res.json(result.rows);
     } catch (error) {
-        console.log("Error obteniendo autores", error.message);
-        res.status(500).json({ error: "Error obteniendo autores" });
+        next(error);
     }
 });
 
 // GET :ID : Obtiene autores por su id 
 
-authorsRouter.get('/:id', async (req, res) => {
+authorsRouter.get('/:id', async (req, res, next) => {
+    if (!isValidId(req.params.id)) {
+        return res.status(400).json({ error: "ID inválido" });
+    }
+
     try {
         const result = await pool.query("SELECT * FROM authors WHERE id = $1", [req.params.id]);
-        if (result.rows.length == 0) {
+        if (result.rows.length === 0) {
             return res.status(404).json({ error: "Autor no encontrado" });
         }
         res.json(result.rows[0]);
     } catch (error) {
-        console.log("Error encontrando el autor", error.message);
-        res.status(500).json({ error: "Error encontrando autor por su id" });
+        next(error);
     }
 });
 
 // POST /api/authors - Crear nuevo autor
-authorsRouter.post('/', async (req, res) => {
+authorsRouter.post('/', async (req, res, next) => {
     const { name, email, bio } = req.body;
 
     if (!name || !email) {
         return res.status(400).json({ error: "Nombre y Email son requeridos" });
+    }
+    
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ error: "Formato de email inválido" });
     }
 
     try {
@@ -42,19 +50,18 @@ authorsRouter.post('/', async (req, res) => {
 
         res.status(201).json(result.rows[0]);
     } catch (error) {
-        console.log("Error creando autores", error.message);
-
-        if (error.code == "23505") {
-            return res.status(409).json({ error: "El email ya esta registrado" });
-        }
-
-        res.status(500).json({ error: "Error creando autor" });
+        next(error);
     }
 });
 
 // PUT /api/authors/:id - Actualizar un autor
-authorsRouter.put('/:id', async (req, res) => {
+authorsRouter.put('/:id', async (req, res, next) => {
     const { name, email, bio } = req.body;
+    const safeBio = bio?.trim() || undefined;
+
+    if (!isValidId(req.params.id)) {
+        return res.status(400).json({ error: "ID inválido" });
+    }
 
     try {
         const result = await pool.query
@@ -64,36 +71,33 @@ authorsRouter.put('/:id', async (req, res) => {
                     bio = COALESCE($3, bio)
                 WHERE id = $4
                 RETURNING *`,
-                [name, email, bio, req.params.id],
+                [name, email, safeBio, req.params.id],
             );
-        if (result.rows.length == 0) {
+        if (result.rows.length === 0) {
             return res.status(404).json({ error: "Autor no encontrado" });
         }
         res.json(result.rows[0]);
     } catch (error) {
-        console.log("Error actualizando autor", error.massage);
-
-        if (error.code == "23505") {
-            return res.status(409).json({ error: "El email ya esta registrado" });
-        }
-        res.status(500).json({ error: "Error actualizando autor" });
+        next(error);
     }
 });
 
 // DELETE /api/authors/:id - Eliminar un autor
-authorsRouter.delete('/:id', async (req, res) => {
+authorsRouter.delete('/:id', async (req, res, next) => {
+    if (!isValidId(req.params.id)) {
+        return res.status(400).json({ error: "ID inválido" });
+    }
+
     try {
         const result = await pool.query("DELETE FROM authors WHERE id = $1", [req.params.id]);
-        if (result.rowCount == 0) {
-            return res.status(404).json({ error: "Error no encontrado" });
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: "Autor no encontrado" });
         }
         res.json({ message: "Autor eliminado correctamente" })
     } catch (error) {
-        console.log("Error eliminando el autor:", error.message);
-        res.status(500).json({ error: "Error eliminando autor" });
+        next(error);
     }
 });
-
 
 
 export default authorsRouter;
