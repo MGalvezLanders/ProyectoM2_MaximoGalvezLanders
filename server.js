@@ -1,16 +1,17 @@
-import { loadEnvFile } from 'node:process';
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from 'express';
 import authorsRouter from './routes/authors-routes.js';
+import postsRouter from './routes/posts-routes.js';
 
-
-loadEnvFile('.env');
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // Rutas
 app.use('/api/authors', authorsRouter);
-// app.use('/api/posts', authorsRouter);
+app.use('/api/posts', postsRouter);
 
 
 // Manejo de rutas no encontradas
