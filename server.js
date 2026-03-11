@@ -21,16 +21,14 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Ruta no encontrada' });
 });
 
-// Manejo de errores
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Error interno del servidor' });
-});
 
+//Middleware de manejo de errores
 app.use(errorHandler);
 
+//Se exporta para los test
 export default app;
 
+// if para que no lo llame al realizar los test
 if (process.argv[1] === new URL(import.meta.url).pathname) {
   app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
