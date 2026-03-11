@@ -4,6 +4,7 @@ import app from '../server.js';
 import pool from '../db/config.js';
 
 let testAuthorId;
+let testPostAuthorId;
 beforeAll(async () => {
     const response = await request(app).post('/api/authors').send({
         name: 'Test Author',
@@ -54,6 +55,7 @@ describe('POST /api/authors', () => {
             name: 'Juan',
             email: `juan${Date.now()}@mail.com`
         });
+        testPostAuthorId = response.body.id;
         expect(response.status).toBe(201);
     });
 
@@ -91,7 +93,7 @@ describe('PUT /api/authors/id', () => {
 describe('DELETE /api/authors/id', () =>{
     
     test('Eliminado exitoso', async () => {
-        const response = await request(app).delete(`/api/authors/${testAuthorId}`).send({name: 'maximo'});
+        const response = await request(app).delete(`/api/authors/${testAuthorId}`).send({name: 'Juan'});
         expect(response.status).toBe(200);
     });
     
@@ -107,5 +109,6 @@ describe('DELETE /api/authors/id', () =>{
     
 });
 afterAll(async () => {
+    await request(app).delete(`/api/authors/${testPostAuthorId}`);
     await pool.end();
 });
