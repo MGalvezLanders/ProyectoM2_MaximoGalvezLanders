@@ -16,7 +16,7 @@ postsRouter.get('/', async (req, res, next) => {
         }else {
             result = await pool.query('SELECT * FROM posts ORDER BY created_at DESC');
         }
-        res.json(result.rows);
+        res.status(200).json(result.rows);
     } catch (error) {
         next(error);
     }
@@ -35,7 +35,7 @@ postsRouter.get('/author/:authorId', async (req, res, next) => {
             [req.params.authorId]
         );
 
-        res.json(result.rows);
+        res.status(200).json(result.rows);
     } catch (error) {
         next(error);
     }
@@ -54,7 +54,7 @@ postsRouter.get('/:id', async (req, res, next) => {
             return res.status(404).json({ error: 'Post no encontrado' });
         }
 
-        res.json(result.rows[0]);
+        res.status(200).json(result.rows[0]);
     } catch (error) {
         next(error);
     }
@@ -109,7 +109,7 @@ postsRouter.put('/:id', async (req, res, next) => {
         if (result.rows.length === 0) {
             return res.status(404).json({ error: "Post no encontrado" });
         }
-        res.json(result.rows[0]);
+        res.status(200).json(result.rows[0]);
     } catch (error) {
         next(error);
     }
@@ -133,7 +133,7 @@ postsRouter.delete('/:id', async (req, res, next) => {
             return res.status(404).json({ error: "Post no encontrado" });
         }
 
-        res.json({ message: "Post eliminado correctamente" });
+        res.status(200).json({ message: "Post eliminado correctamente" });
     } catch (error) {
         next(error);
     }

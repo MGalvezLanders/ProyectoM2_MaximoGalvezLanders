@@ -9,7 +9,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 authorsRouter.get('/', async (req, res, next) => {
     try {
         const result = await pool.query("SELECT * FROM authors ORDER BY name");
-        res.json(result.rows);
+        res.status(200).json(result.rows);
     } catch (error) {
         next(error);
     }
@@ -27,7 +27,7 @@ authorsRouter.get('/:id', async (req, res, next) => {
         if (result.rows.length === 0) {
             return res.status(404).json({ error: "Autor no encontrado" });
         }
-        res.json(result.rows[0]);
+        res.status(200).json(result.rows[0]);
     } catch (error) {
         next(error);
     }
@@ -76,7 +76,7 @@ authorsRouter.put('/:id', async (req, res, next) => {
         if (result.rows.length === 0) {
             return res.status(404).json({ error: "Autor no encontrado" });
         }
-        res.json(result.rows[0]);
+        res.status(200).json(result.rows[0]);
     } catch (error) {
         next(error);
     }
@@ -93,7 +93,7 @@ authorsRouter.delete('/:id', async (req, res, next) => {
         if (result.rowCount === 0) {
             return res.status(404).json({ error: "Autor no encontrado" });
         }
-        res.json({ message: "Autor eliminado correctamente" })
+        res.status(200).json({ message: "Autor eliminado correctamente" })
     } catch (error) {
         next(error);
     }
