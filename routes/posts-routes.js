@@ -13,7 +13,7 @@ postsRouter.get('/', async (req, res, next) => {
         if (published !== undefined) {
             const isPublished = published === 'true';
             result = await pool.query('SELECT * FROM posts WHERE published = $1 ORDER BY created_at DESC', [isPublished]);
-        }else {
+        } else {
             result = await pool.query('SELECT * FROM posts ORDER BY created_at DESC');
         }
         res.status(200).json(result.rows);
@@ -34,6 +34,9 @@ postsRouter.get('/author/:authorId', async (req, res, next) => {
             'SELECT * FROM posts WHERE author_id = $1 ORDER BY created_at DESC',
             [req.params.authorId]
         );
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Autor no encontrado' });
+        }
 
         res.status(200).json(result.rows);
     } catch (error) {
@@ -65,18 +68,22 @@ postsRouter.get('/:id', async (req, res, next) => {
 // POST /api/posts - Crear un nuevo post
 postsRouter.post('/', async (req, res, next) => {
     const { title, content, author_id, published } = req.body;
-
+    
     if (!title || !content || !author_id) {
         return res.status(400).json({
             error: 'Título, contenido y author_id son requeridos'
         });
     }
-
+    
     if (!isValidId(author_id)) {
         return res.status(400).json({ error: "author_id es inválido" });
     }
-
+    
     try {
+        const author = await pool.query('SELECT id FROM authors WHERE id = $1', [author_id]);
+        if (author.rows.length === 0) {
+            return res.status(404).json({ error: 'Autor no encontrado' });
+        }
         const result = await pool.query(
             'INSERT INTO posts (title, content, author_id, published) VALUES ($1, $2, $3, $4) RETURNING *',
             [title, content, author_id, published ?? false]
@@ -84,6 +91,7 @@ postsRouter.post('/', async (req, res, next) => {
 
         res.status(201).json(result.rows[0]);
     } catch (error) {
+        console.log(error);
         next(error);
     }
 });
@@ -133,7 +141,7 @@ postsRouter.delete('/:id', async (req, res, next) => {
             return res.status(404).json({ error: "Post no encontrado" });
         }
 
-        res.status(200).json({ message: "Post eliminado correctamente" });
+        res.status(204).send();
     } catch (error) {
         next(error);
     }
