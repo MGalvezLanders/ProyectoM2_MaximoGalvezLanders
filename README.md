@@ -181,6 +181,49 @@ Servidor corriendo en http://localhost:3000
 npm test
 ```
 
+---
+
+## Uso de IA
+
+En el proyecto se utilizaron herramientas de **Inteligencia artificial** para el desarrollo y aprendizaje 
+
+La ia fue utilizada como **herramienta de asistencia**
+
+---
+
+### Herramientas utilizadas 
+
+- Chatgpt: Usada para consultas sobre errores y archivos de documentacion
+
+- Claude: Usada para enseñar codigo 
+
+---
+
+## Claud usada para aprender testing
+
+![Claud usada para aprender testing](./img/Claude%201.png)
+
+![Claud usada para aprender testing](./img/claude%202.png)
+
+![Claud usada para aprender testing](./img/Claude%203.png)
+
+---
+
+## ChatGPT usada para escirbir archivo openapi
+
+![ChatGPT usada para escribir archivo open api](./img/ChatGPT%201.png)
+
+![ChatGPT usada para escribir archivo open api](./img/ChatGPT%202.png)
+
+---
+
+## Clude para resolver errores de codigo
+
+![Claude usada para resolver errores](./img/uso%20de%20IA-ayuda%20a%20corregir%201.png)
+
+![Claude usada para resolver errores](./img/uso%20de%20IA-ayuda%20a%20corregir%202.png)
+
+![Claude usada para resolver errores](./img/uso%20de%20IA-ayuda%20a%20corregir%203.png)
 
 ---
 
