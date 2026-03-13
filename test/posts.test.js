@@ -1,6 +1,6 @@
 import { describe, test, expect, afterAll, beforeAll } from 'vitest';
 import request from 'supertest';
-import app from '../server.js';
+import app from '../app-test.js';
 import pool from '../db/config.js';
 
 
