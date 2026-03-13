@@ -119,9 +119,8 @@ SELECT * FROM posts WHERE published = true ORDER BY created_at DESC
 ## 📚 Documentación interactiva
 
 Open API disponible en:
-
 ```
-https://tu-api-url.com/api-docs
+https://proyectom2maximogalvezlanders-production.up.railway.app/api-docs
 ```
 
 Desde ahí se pueden probar todos los endpoints directamente desde el navegador.
