@@ -18,6 +18,7 @@ postsRouter.get('/', async (req, res, next) => {
         }
         res.status(200).json(result.rows);
     } catch (error) {
+        console.log('Error obteniendo posts', error.message);
         next(error);
     }
 });
@@ -40,6 +41,7 @@ postsRouter.get('/author/:authorId', async (req, res, next) => {
 
         res.status(200).json(result.rows);
     } catch (error) {
+        console.log('Error obteniendo posts con id de autor', error.message);
         next(error);
     }
 });
@@ -59,6 +61,7 @@ postsRouter.get('/:id', async (req, res, next) => {
 
         res.status(200).json(result.rows[0]);
     } catch (error) {
+        console.log('Error obteniendo posts con id', error.message);
         next(error);
     }
 
@@ -92,6 +95,7 @@ postsRouter.post('/', async (req, res, next) => {
         res.status(201).json(result.rows[0]);
     } catch (error) {
         console.log(error);
+        console.log('Error subiendo posts', error.message);
         next(error);
     }
 });
@@ -119,6 +123,7 @@ postsRouter.put('/:id', async (req, res, next) => {
         }
         res.status(200).json(result.rows[0]);
     } catch (error) {
+        console.log('Error modificando posts', error.message);
         next(error);
     }
 
@@ -143,6 +148,7 @@ postsRouter.delete('/:id', async (req, res, next) => {
 
         res.status(204).send();
     } catch (error) {
+        console.log('Error borrando posts', error.message);
         next(error);
     }
 

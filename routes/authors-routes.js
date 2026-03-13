@@ -11,6 +11,7 @@ authorsRouter.get('/', async (req, res, next) => {
         const result = await pool.query("SELECT * FROM authors ORDER BY name");
         res.status(200).json(result.rows);
     } catch (error) {
+        console.log('Error obteniendo autores', error.message);
         next(error);
     }
 });
@@ -29,6 +30,7 @@ authorsRouter.get('/:id', async (req, res, next) => {
         }
         res.status(200).json(result.rows[0]);
     } catch (error) {
+        console.log('Error obteniendo autores por id', error.message);
         next(error);
     }
 });
@@ -50,6 +52,7 @@ authorsRouter.post('/', async (req, res, next) => {
 
         res.status(201).json(result.rows[0]);
     } catch (error) {
+        console.log('Error subiendo autores', error.message);
         next(error);
     }
 });
@@ -78,6 +81,7 @@ authorsRouter.put('/:id', async (req, res, next) => {
         }
         res.status(200).json(result.rows[0]);
     } catch (error) {
+        console.log('Error modificando autores', error.message);
         next(error);
     }
 });
@@ -95,6 +99,7 @@ authorsRouter.delete('/:id', async (req, res, next) => {
         }
         res.status(200).json({ message: "Autor eliminado correctamente" })
     } catch (error) {
+        console.log('Error eliminando autores', error.message);
         next(error);
     }
 });
