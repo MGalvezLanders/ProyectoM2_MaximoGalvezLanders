@@ -1,13 +1,12 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
-import authorsRouter from './routes/authors-routes.js';
-import postsRouter from './routes/posts-routes.js';
-import { errorHandler } from "./middleware/errorHandler.js";
+import authorsRouter from './routes/authors-routes';
+import postsRouter from './routes/posts-routes';
+import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // Rutas
@@ -22,5 +21,5 @@ app.use((req, res) => {
 //Middleware de manejo de errores
 app.use(errorHandler);
 
-//Escuchar la app 
-app.listen(PORT, () => {console.log(`Servidor corriendo en http://localhost:${PORT}`);});
+//Se exporta para los test
+export default app;
