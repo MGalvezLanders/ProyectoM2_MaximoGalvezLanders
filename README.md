@@ -3,12 +3,53 @@
 
  ## 🌐 URL de la API
 
-API desplegada en:Railway
+API desplegada en: **Railway**
 
 ```
 https://proyectom2maximogalvezlanders-production.up.railway.app
 ```
 ---
+
+## 🚀 Deployment en Railway
+
+
+### 1️⃣ Crear el proyecto
+
+1. Ir a https://railway.app
+2. Crear un nuevo proyecto.
+3. Conectar el repositorio de GitHub que contiene la API.
+
+### 2️⃣ Variables de entorno
+
+Las variables de entorno se configuran solas dentro de railway. Verificar que esten las siguientes:
+
+- DB_HOST=
+- DB_PORT=
+- DB_USER=
+- DB_PASSWORD=
+- DB_NAME=
+- DATABASE_URL=
+- PORT=
+
+### 3️⃣ Public URL
+
+Una vez desplegada, Railway genera una **URL pública** para acceder a la API.
+
+Ejemplo:
+
+```
+postgresql://postgres:OMBkzotzpgDWLvgyIdWuJGFbATCcItcX@yamanote.proxy.rlwy.net:19277/railway
+```
+
+### 4️⃣ Redeploy automático
+
+Cada vez que se hace un **push a GitHub**, Railway redepliega automáticamente la aplicación con los últimos cambios.
+
+
+
+
+---
+
 
 ## 🛠 Tecnologías utilizadas
 
@@ -143,6 +184,7 @@ Servidor corriendo en http://localhost:3000
 ```bash
 npm test
 ```
+
 
 ---
 
