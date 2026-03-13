@@ -45,9 +45,6 @@ postgresql://postgres:OMBkzotzpgDWLvgyIdWuJGFbATCcItcX@yamanote.proxy.rlwy.net:1
 
 Cada vez que se hace un **push a GitHub**, Railway redepliega automáticamente la aplicación con los últimos cambios.
 
-
-
-
 ---
 
 
