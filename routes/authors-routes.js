@@ -1,9 +1,10 @@
 import express from "express";
 import pool from "../db/config.js";
-const authorsRouter = express.Router();
 
+const authorsRouter = express.Router();
 const isValidId = (id) => Number.isInteger(Number(id)) && Number(id) > 0;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 
 // GET : Obtiene los autores
 authorsRouter.get('/', async (req, res, next) => {
@@ -16,8 +17,8 @@ authorsRouter.get('/', async (req, res, next) => {
     }
 });
 
-// GET :ID : Obtiene autores por su id 
 
+// GET :ID : Obtiene autores por su id 
 authorsRouter.get('/:id', async (req, res, next) => {
     if (!isValidId(req.params.id)) {
         return res.status(400).json({ error: "ID inválido" });
@@ -34,6 +35,7 @@ authorsRouter.get('/:id', async (req, res, next) => {
         next(error);
     }
 });
+
 
 // POST /api/authors - Crear nuevo autor
 authorsRouter.post('/', async (req, res, next) => {
@@ -56,6 +58,7 @@ authorsRouter.post('/', async (req, res, next) => {
         next(error);
     }
 });
+
 
 // PUT /api/authors/:id - Actualizar un autor
 authorsRouter.put('/:id', async (req, res, next) => {
@@ -85,6 +88,7 @@ authorsRouter.put('/:id', async (req, res, next) => {
         next(error);
     }
 });
+
 
 // DELETE /api/authors/:id - Eliminar un autor
 authorsRouter.delete('/:id', async (req, res, next) => {

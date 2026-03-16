@@ -5,6 +5,7 @@ import pool from '../db/config.js';
 
 let testAuthorId;
 let testPostAuthorId;
+
 beforeAll(async () => {
     const response = await request(app).post('/api/authors').send({
         name: 'Test Author',
@@ -13,6 +14,7 @@ beforeAll(async () => {
     testAuthorId = response.body.id;
 });
 
+//TEST GET
 describe('GET /api/authors', () => {
 
     test('Devuelve estatus 200', async () => {
@@ -27,6 +29,7 @@ describe('GET /api/authors', () => {
 
 });
 
+//TEST GET ID
 describe('GET /api/authors/id', () => {
 
     test('Devuelve status 200', async () => {
@@ -47,7 +50,7 @@ describe('GET /api/authors/id', () => {
 
 });
 
-
+//TEST POST
 describe('POST /api/authors', () => {
 
     test('Enviado correctamente', async () => {
@@ -71,6 +74,7 @@ describe('POST /api/authors', () => {
 
 });
 
+//TEST PUT ID
 describe('PUT /api/authors/id', () => {
 
     test('Enviado correctamente', async () => {
@@ -90,6 +94,7 @@ describe('PUT /api/authors/id', () => {
 
 });
 
+//TEST DELETE
 describe('DELETE /api/authors/id', () =>{
     
     test('Eliminado exitoso', async () => {

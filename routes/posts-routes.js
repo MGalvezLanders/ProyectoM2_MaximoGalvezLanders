@@ -4,6 +4,7 @@ import pool from '../db/config.js';
 const postsRouter = express.Router();
 const isValidId = (id) => Number.isInteger(Number(id)) && Number(id) > 0;
 
+
 // GET /api/posts - Obtener todos los posts
 postsRouter.get('/', async (req, res, next) => {
     const { published } = req.query;
@@ -45,6 +46,7 @@ postsRouter.get('/author/:authorId', async (req, res, next) => {
         next(error);
     }
 });
+
 
 // GET /api/posts/:id - Obtener un post por ID
 postsRouter.get('/:id', async (req, res, next) => {
@@ -100,6 +102,7 @@ postsRouter.post('/', async (req, res, next) => {
     }
 });
 
+
 // PUT /api/posts/:id - Actualizar un post
 postsRouter.put('/:id', async (req, res, next) => {
     if (!isValidId(req.params.id)) {
@@ -130,6 +133,7 @@ postsRouter.put('/:id', async (req, res, next) => {
 
 });
 
+
 // DELETE /api/posts/:id - Eliminar un post
 postsRouter.delete('/:id', async (req, res, next) => {
     if (!isValidId(req.params.id)) {
@@ -153,5 +157,6 @@ postsRouter.delete('/:id', async (req, res, next) => {
     }
 
 });
+
 
 export default postsRouter

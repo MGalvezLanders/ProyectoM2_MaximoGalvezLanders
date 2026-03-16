@@ -21,6 +21,7 @@ beforeAll(async () => {
     testPostId = result.rows[0].id;
 });
 
+//TEST GET
 describe('GET /api/posts', () => {
 
     test('Esta publicado', async () => {
@@ -45,10 +46,9 @@ describe('GET /api/posts/author/authorId', () => {
         const response = await request(app).get('/api/posts/author/9999');
         expect(response.status).toBe(404);
     });
-
-
 });
 
+//TEST GET ID
 describe('GET /api/posts/id', () => {
 
     test('Devuelve status 200', async () => {
@@ -65,11 +65,9 @@ describe('GET /api/posts/id', () => {
         const response = await request(app).get('/api/posts/9999');
         expect(response.status).toBe(404);
     });
-
-
 });
 
-
+//TEST POST
 describe('POST /api/posts', () => {
 
     test('Enviado correctamente', async () => {
@@ -98,6 +96,7 @@ describe('POST /api/posts', () => {
 
 });
 
+//TEST PUT
 describe('PUT /api/posts/id', () => {
 
     test('Enviado correctamente', async () => {
@@ -117,6 +116,7 @@ describe('PUT /api/posts/id', () => {
 
 });
 
+//TEST DELETE
 describe('DELETE /api/posts/id', () =>{
     
     test('Eliminado exitoso', async () => {
