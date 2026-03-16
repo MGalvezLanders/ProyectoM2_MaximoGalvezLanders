@@ -18,7 +18,7 @@ CREATE TABLE posts (
   FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE CASCADE
 );
 
--- Insertar datos de ejemplo
+-- Datos de ejemplo
 INSERT INTO authors (name, email, bio) VALUES
   ('Ana García', 'ana@example.com', 'Desarrolladora full-stack apasionada por Node.js'),
   ('Carlos Ruiz', 'carlos@example.com', 'Escritor técnico especializado en bases de datos'),

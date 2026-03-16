@@ -1,14 +1,17 @@
 import dotenv from "dotenv";
 dotenv.config();
+
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 import express from 'express';
 import authorsRouter from './routes/authors-routes.js';
 import postsRouter from './routes/posts-routes.js';
 import { errorHandler } from "./middleware/errorHandler.js";
+
 const swaggerDocument = YAML.load("./openapi.yaml");
 const app = express();
 const PORT = process.env.PORT || 3000;
+
 app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
