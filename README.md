@@ -175,11 +175,141 @@ Servidor corriendo en http://localhost:3000
 
 ---
 
-## 🧪 Ejecutar tests
 
-```bash
-npm test
+## 🧪 Testeo de la API con Postman
+
+Para probar los endpoints de la API se puede utilizar **Postman**, una herramienta que permite enviar solicitudes HTTP y visualizar las respuestas del servidor.
+
+### 1️⃣ Instalar Postman
+
+Descargar Postman desde el sitio oficial:
+
+https://www.postman.com/downloads/
+
+Instalar la aplicación y abrirla.
+
+---
+
+### 2️⃣ Crear una nueva solicitud
+
+1. Abrir Postman.
+2. Hacer clic en **New Request**.
+3. Seleccionar el método HTTP correspondiente (`GET`, `POST`, `PUT`, `DELETE`).
+4. Ingresar la URL del endpoint.
+
+Ejemplo:
+
 ```
+https://proyectom2maximogalvezlanders-production.up.railway.app/api/authors
+```
+
+---
+
+### 3️⃣ Probar un endpoint GET
+
+Para obtener todos los autores:
+
+**Método**
+
+```
+GET
+```
+
+**URL**
+
+```
+https://proyectom2maximogalvezlanders-production.up.railway.app/api/authors
+```
+
+Luego presionar **Send**.
+
+Respuesta esperada:
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Gabriel García Márquez",
+    "email": "gabriel@email.com",
+    "bio": "Escritor colombiano",
+    "created_at": "2026-03-16T12:00:00.000Z"
+  }
+]
+```
+
+---
+
+### 4️⃣ Probar un endpoint POST
+
+Para crear un nuevo autor.
+
+**Método**
+
+```
+POST
+```
+
+**URL**
+
+```
+https://proyectom2maximogalvezlanders-production.up.railway.app/api/authors
+```
+
+Ir a la pestaña **Body → raw → JSON** y enviar:
+
+```json
+{
+  "name": "Autor de prueba",
+  "email": "autor@test.com",
+  "bio": "Autor creado para testing"
+}
+```
+
+Presionar **Send**.
+
+Respuesta esperada:
+
+```json
+{
+  "id": 2,
+  "name": "Autor de prueba",
+  "email": "autor@test.com",
+  "bio": "Autor creado para testing",
+  "created_at": "2026-03-16T12:10:00.000Z"
+}
+```
+
+---
+
+### 5️⃣ Probar otros endpoints
+
+También se pueden probar:
+
+- Obtener autor por ID  
+- Actualizar un autor  
+- Eliminar un autor  
+- Crear y consultar posts  
+
+Ejemplo:
+
+```
+GET /api/posts
+GET /api/posts/{id}
+POST /api/posts
+DELETE /api/posts/{id}
+```
+
+---
+
+### 6️⃣ Verificación de respuestas
+
+Al enviar la solicitud, Postman mostrará:
+
+- **Status code** (200, 201, 400, 404, etc.)
+- **Tiempo de respuesta**
+- **Cuerpo de la respuesta (JSON)**
+
+Esto permite verificar que los endpoints funcionan correctamente.
 
 ---
 
