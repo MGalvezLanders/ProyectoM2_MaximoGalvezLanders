@@ -9,44 +9,17 @@ API desplegada en: **Railway**
 https://proyectom2maximogalvezlanders-production.up.railway.app
 ```
 ---
+## 📚 Documentación interactiva
 
-## 🚀 Deployment en Railway
-
-
-### 1️⃣ Crear el proyecto
-
-1. Ir a https://railway.app
-2. Crear un nuevo proyecto.
-3. Conectar el repositorio de GitHub que contiene la API.
-
-### 2️⃣ Variables de entorno
-
-Las variables de entorno se configuran solas dentro de railway. Verificar que esten las siguientes:
-
-- DB_HOST=
-- DB_PORT=
-- DB_USER=
-- DB_PASSWORD=
-- DB_NAME=
-- DATABASE_URL=
-- PORT=
-
-### 3️⃣ Public URL
-
-Una vez desplegada, Railway genera una **URL pública** para acceder a la API.
-
-Ejemplo:
-
+Open API disponible en:
 ```
-postgresql://postgres:OMBkzotzpgDWLvgyIdWuJGFbATCcItcX@yamanote.proxy.rlwy.net:19277/railway
+https://proyectom2maximogalvezlanders-production.up.railway.app/api-docs
 ```
 
-### 4️⃣ Redeploy automático
+Desde ahí se pueden probar todos los endpoints directamente desde el navegador.\
 
-Cada vez que se hace un **push a GitHub**, Railway redepliega automáticamente la aplicación con los últimos cambios.
 
 ---
-
 
 ## 🛠 Tecnologías utilizadas
 
@@ -116,14 +89,41 @@ SELECT * FROM posts WHERE published = true ORDER BY created_at DESC
 
 ---
 
-## 📚 Documentación interactiva
+## 🚀 Deployment en Railway
 
-Open API disponible en:
+
+### 1️⃣ Crear el proyecto
+
+1. Ir a https://railway.app
+2. Crear un nuevo proyecto.
+3. Conectar el repositorio de GitHub que contiene la API.
+
+### 2️⃣ Variables de entorno
+
+Las variables de entorno se configuran solas dentro de railway. Verificar que esten las siguientes:
+
+- DB_HOST=
+- DB_PORT=
+- DB_USER=
+- DB_PASSWORD=
+- DB_NAME=
+- DATABASE_URL=
+- PORT=
+
+### 3️⃣ Public URL
+
+Una vez desplegada, Railway genera una **URL pública** para acceder a la API.
+
+Ejemplo:
+
 ```
-https://proyectom2maximogalvezlanders-production.up.railway.app/api-docs
+postgresql://postgres:OMBkzotzpgDWLvgyIdWuJGFbATCcItcX@yamanote.proxy.rlwy.net:19277/railway
 ```
 
-Desde ahí se pueden probar todos los endpoints directamente desde el navegador.
+### 4️⃣ Redeploy automático
+
+Cada vez que se hace un **push a GitHub**, Railway redepliega automáticamente la aplicación con los últimos cambios.
+
 
 ---
 
