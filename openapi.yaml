@@ -10,10 +10,22 @@ servers:
   - url: https://proyectom2maximogalvezlanders-production.up.railway.app
     description: Production server (Railway)
 
+tags:
+  - name: Authors
+    description: Operaciones relacionadas con autores
+  - name: Posts
+    description: Operaciones relacionadas con publicaciones
+
 paths:
+
+  # ──────────────────────────────────────────
+  # AUTHORS
+  # ──────────────────────────────────────────
 
   /api/authors:
     get:
+      tags:
+        - Authors
       summary: Obtener todos los autores
       responses:
         "200":
@@ -26,6 +38,8 @@ paths:
                   $ref: "#/components/schemas/Author"
 
     post:
+      tags:
+        - Authors
       summary: Crear un autor
       requestBody:
         required: true
@@ -43,10 +57,12 @@ paths:
         "400":
           description: Datos inválidos
         "409":
-          description: Conflicto (ej: email duplicado)
+          description: Conflicto (ej. email duplicado)
 
   /api/authors/{id}:
     get:
+      tags:
+        - Authors
       summary: Obtener autor por ID
       parameters:
         - in: path
@@ -67,6 +83,8 @@ paths:
           description: Autor no encontrado
 
     put:
+      tags:
+        - Authors
       summary: Actualizar autor
       parameters:
         - in: path
@@ -89,6 +107,8 @@ paths:
           description: Autor no encontrado
 
     delete:
+      tags:
+        - Authors
       summary: Eliminar autor
       parameters:
         - in: path
@@ -104,8 +124,39 @@ paths:
         "404":
           description: Autor no encontrado
 
+  /api/post/author/{author_id}:
+    get:
+      tags:
+        - Authors
+      summary: Obtener posts de un autor
+      parameters:
+        - in: path
+          name: author_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de posts del autor
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+        "400":
+          description: AuthorId inválido
+        "404":
+          description: Posts no encontrados
+
+  # ──────────────────────────────────────────
+  # POSTS
+  # ──────────────────────────────────────────
+
   /api/posts:
     get:
+      tags:
+        - Posts
       summary: Obtener todos los posts
       responses:
         "200":
@@ -118,6 +169,8 @@ paths:
                   $ref: "#/components/schemas/Post"
 
     post:
+      tags:
+        - Posts
       summary: Crear un post
       requestBody:
         required: true
@@ -135,6 +188,8 @@ paths:
 
   /api/posts/{id}:
     get:
+      tags:
+        - Posts
       summary: Obtener post por ID
       parameters:
         - in: path
@@ -155,6 +210,8 @@ paths:
           description: Post no encontrado
 
     put:
+      tags:
+        - Posts
       summary: Actualizar post
       parameters:
         - in: path
@@ -177,6 +234,8 @@ paths:
           description: Post no encontrado
 
     delete:
+      tags:
+        - Posts
       summary: Eliminar post
       parameters:
         - in: path
@@ -191,29 +250,6 @@ paths:
           description: ID inválido
         "404":
           description: Post no encontrado
-
-  /api/post/author/{author_id}:
-    get:
-      summary: Obtener posts de un autor
-      parameters:
-        - in: path
-          name: author_id
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Lista de posts del autor
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Post"
-        "400":
-          description: AuthorId inválido
-        "404":
-          description: Posts no encontrados
 
 components:
   schemas:
