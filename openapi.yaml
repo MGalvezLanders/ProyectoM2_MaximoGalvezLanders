@@ -124,31 +124,6 @@ paths:
         "404":
           description: Autor no encontrado
 
-  /api/post/author/{author_id}:
-    get:
-      tags:
-        - Authors
-      summary: Obtener posts de un autor
-      parameters:
-        - in: path
-          name: author_id
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Lista de posts del autor
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Post"
-        "400":
-          description: AuthorId inválido
-        "404":
-          description: Posts no encontrados
-
   # ──────────────────────────────────────────
   # POSTS
   # ──────────────────────────────────────────
@@ -250,6 +225,31 @@ paths:
           description: ID inválido
         "404":
           description: Post no encontrado
+
+  /api/post/author/{author_id}:
+    get:
+      tags:
+        - Posts
+      summary: Obtener posts de un autor
+      parameters:
+        - in: path
+          name: author_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de posts del autor
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+        "400":
+          description: AuthorId inválido
+        "404":
+          description: Posts no encontrados
 
 components:
   schemas:
