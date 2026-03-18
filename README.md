@@ -150,13 +150,9 @@ npm install
 Crear un archivo `.env` con las siguientes variables:
 
 ```
-DB_HOST=
-DB_PORT=
-DB_USER=
-DB_PASSWORD=
-DB_NAME=
 DATABASE_URL=
 PORT=
+NODE_ENV=
 ```
 
 ---
